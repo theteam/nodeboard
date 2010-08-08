@@ -18,5 +18,9 @@ Run in the command line by typing:
 Things to do
 ------------
 
-* persist data (was thinking of writing to file on a setTimeout function)
-
+* better error handling
+** boards not found
+** file not found at startup
+* refactoring function names
+* refactoring into different files for routes, business logic, config etc
+* add authentication and user context for boards

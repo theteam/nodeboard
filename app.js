@@ -26,6 +26,8 @@ app.use(express.methodOverride());
 boardNames = [];
 boards = {};
 initData = {"title": "foo", "modifier": "AN Other", "modified": "brand new!", "categories": ["Hot", "Not"], "cards": [{"name": "Paris", "categories": "Hot"}, {"name": "Paris Hilton", "categories": "Not"}]};
+timeout = 3000;
+port = 3000;
 
 // functions
 function clone(obj){
@@ -49,7 +51,7 @@ function flush(){
 		console.log('It saved');
 	});
 	
-	setTimeout(flush, 3000);
+	setTimeout(flush, timeout);
 }
 
 function read(){
@@ -62,21 +64,6 @@ function read(){
 }
 
 // routes
-app.get('/users', function(request, response){
-	
-	var usersRaw = fs.readFileSync(__dirname + '/data/users.json', 'utf8');
-	var users = JSON.parse(usersRaw);
-	
-	response.render('users.ejs', {
-		locals:{users:users}
-	});
-	
-	fs.writeFile('./data/users.json', JSON.stringify(users), 'utf8', function(err){
-		if (err) throw err;
-		console.log('It saved');
-	});
-	
-});
 
 app.get('/', function(req, res){
 	console.log('displaying homepage');
@@ -133,7 +120,7 @@ app.del('/boards/:id', function(req, res){
 });
 
 read();
-setTimeout(flush,3000);
+setTimeout(flush,timeout);
 
-app.listen(3000);
+app.listen(port);
 console.log('ready...');
