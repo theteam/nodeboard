@@ -26,7 +26,7 @@ app.use(express.methodOverride());
 boardNames = [];
 boards = {};
 initData = {"title": "foo", "modifier": "AN Other", "modified": "brand new!", "categories": ["Hot", "Not"], "cards": [{"name": "Paris", "categories": "Hot"}, {"name": "Paris Hilton", "categories": "Not"}]};
-timeout = 3000;
+timeout = 30000;
 port = 3000;
 
 // functions
