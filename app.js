@@ -2,27 +2,32 @@
 var sys = require('sys');
 var fs = require('fs');
 // module dependencies
+// filesystem references are post correct after running ndistro
 var express = require('./modules/express');
 var ejs = require('./modules/ejs');
 
 // config
 var app = express.createServer();
+app.use(express.staticProvider(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+// Here we use the bodyDecoder middleware
+// to parse urlencoded request bodies
+// which populates req.body
 app.use(express.bodyDecoder());
+// Required by session
 app.use(express.cookieDecoder());
+// The methodOverride middleware allows us
+// to set a hidden input of _method to an arbitrary
+// HTTP method to support app.put(), app.del() etc
 app.use(express.methodOverride());
-app.use(express.staticProvider(__dirname + '/public'));
 
 // vars
-
 boardNames = [];
 boards = {};
-
-var initData = {"title": "foo", "modifier": "AN Other", "modified": "brand new!", "categories": ["Hot", "Not"], "cards": [{"name": "Paris", "categories": "Hot"}, {"name": "Paris Hilton", "categories": "Not"}]};
+initData = {"title": "foo", "modifier": "AN Other", "modified": "brand new!", "categories": ["Hot", "Not"], "cards": [{"name": "Paris", "categories": "Hot"}, {"name": "Paris Hilton", "categories": "Not"}]};
 
 // functions
-
 function clone(obj){
     if(obj == null || typeof(obj) != 'object')
         return obj;
@@ -33,6 +38,20 @@ function clone(obj){
         temp[key] = clone(obj[key]);
     return temp;
 }
+
+function flush(){
+	fs.writeFile('./data/boards.json', JSON.stringify(boards), 'utf8', function(err){
+		if (err) throw err;
+		console.log('It saved');
+	});
+	fs.writeFile('./data/boardNames.json', JSON.stringify(boardNames), 'utf8', function(err){
+		if (err) throw err;
+		console.log('It saved');
+	});
+	
+	setTimeout(flush, 3000);
+}
+
 
 // routes
 app.get('/users', function(request, response){
@@ -104,6 +123,8 @@ app.del('/boards/:id', function(req, res){
 	boards[boardName] = null;
 	res.redirect('/boards');
 });
+
+setTimeout(flush,3000);
 
 app.listen(3000);
 console.log('ready...');
