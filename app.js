@@ -52,6 +52,14 @@ function flush(){
 	setTimeout(flush, 3000);
 }
 
+function read(){
+	boards = JSON.parse(fs.readFileSync(__dirname + '/data/boards.json', 'utf8'));
+	boardNames = JSON.parse(fs.readFileSync(__dirname + '/data/boardNames.json', 'utf8'));
+	
+	console.log('reading boards data');
+	console.log(JSON.stringify(boards));
+	console.log(JSON.stringify(boardNames));
+}
 
 // routes
 app.get('/users', function(request, response){
@@ -124,6 +132,7 @@ app.del('/boards/:id', function(req, res){
 	res.redirect('/boards');
 });
 
+read();
 setTimeout(flush,3000);
 
 app.listen(3000);
