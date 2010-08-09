@@ -18,9 +18,7 @@ Run in the command line by typing:
 Things to do
 ------------
 
-* better error handling
- * boards not found
- * file not found at startup
+* better error handling (e.g. boards not found, file not found at startup)
 * refactoring function names
 * refactoring into different files for routes, business logic, config etc
 * add authentication and user context for boards
