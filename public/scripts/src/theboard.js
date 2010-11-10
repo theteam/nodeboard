@@ -190,7 +190,7 @@ function buildTable(data) {
 	// populate the board with the data.
 	for (var c=0; c < data.cards.length; c++) {
 		var col = $('#'+data.cards[c].categories);
-		var card = "<li class='card>"+data.cards[c].name +"</li>";	
+		var card = "<li class='card'>"+data.cards[c].name +"</li>";	
 		col.append(card);
 	}
 	resizeColumns();
